@@ -22,6 +22,7 @@ pub mod qid;
 use crate::line_graph::LineGraph;
 use crate::operations::pbc::PauliRotation;
 
+// I'm not sure people's feelings on putting this in `lib.rs` instead of separate files....
 pub enum MirOp {
     PauliRotation(PauliRotation),
 }

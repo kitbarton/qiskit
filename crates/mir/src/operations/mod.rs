@@ -10,4 +10,8 @@
 // copyright notice, and modified files need to carry a notice indicating
 // that they have been altered from the originals.
 
+//! Definition of operations in Qiskit MIR.
+//!
+//! Each file represents a different logical category of operations.
+
 pub mod pbc;
