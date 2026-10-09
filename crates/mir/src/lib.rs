@@ -16,4 +16,16 @@
 //! algorithms.
 
 pub mod line_graph;
+pub mod operations;
 pub mod qid;
+
+use crate::line_graph::LineGraph;
+use crate::operations::pbc::PauliRotation;
+
+pub enum MirOp {
+    PauliRotation(PauliRotation),
+}
+
+pub struct MirOpList {
+    list: LineGraph<MirOp>,
+}
