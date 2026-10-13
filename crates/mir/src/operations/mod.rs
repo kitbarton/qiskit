@@ -15,3 +15,14 @@
 //! Each file represents a different logical category of operations.
 
 pub mod pbc;
+
+use crate::operations::pbc::{PauliMeasure, PauliRotation};
+
+pub enum MirOp {
+    // Quantum operations
+    PauliRotation(PauliRotation),
+    PauliMeasure(PauliMeasure),
+    // Control flow operations
+    ConditionalBranch,
+    UnconditionalBranch,
+}

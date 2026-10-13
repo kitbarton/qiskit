@@ -15,17 +15,16 @@
 use std::fmt;
 
 pub struct PauliRotation {
-    qubits: u64, // TODO - replace with QID or SymbolId when available
     paulis: u64, // TODO - replace with Pauli or SymbolId when available
     angle: f64,  // TODO - create AngleType
 }
 
 impl fmt::Display for PauliRotation {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(
-            f,
-            "pauli_rotation({}, {}, {}",
-            self.qubits, self.paulis, self.angle
-        )
+        write!(f, "pauli_rotation({}, {}", self.paulis, self.angle)
     }
+}
+
+pub struct PauliMeasure {
+    paulis: u64, // TODO - or use SymbolIdList from instruction
 }

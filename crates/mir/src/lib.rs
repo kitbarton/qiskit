@@ -20,13 +20,28 @@ pub mod operations;
 pub mod qid;
 
 use crate::line_graph::LineGraph;
-use crate::operations::pbc::PauliRotation;
+use crate::operations::MirOp;
 
-// I'm not sure people's feelings on putting this in `lib.rs` instead of separate files....
-pub enum MirOp {
-    PauliRotation(PauliRotation),
+type QidList = Vec<u64>; // temp - replace with Qid when available
+type SymbolIdList = Vec<u64>; // temp - relpace with SymbolId when available
+
+/// Instruction in Qiskit Medium IR
+///
+/// This represents an instruction in MIR. Each instruction consists of an
+/// operation, a list of Quantum IDs, a list of SymbolIds of arguments and a
+/// list of SymbolIds for returns. Any of these lists may be empty, indicating
+/// that the specific field is not required for the given operation. For
+/// example, a `PauliRotation` does not "return" any values and thus the
+/// `returns` field should be an empty vector. Similarly, a branch operation
+/// does not operate on, or effect any QuantumIDs and thus the `qids` list
+/// should be empty.
+pub struct MirInstruction {
+    op: MirOp,
+    qids: QidList,
+    args: SymbolIdList,
+    returns: SymbolIdList, // Or just SymbolId
 }
 
-pub struct MirOpList {
-    list: LineGraph<MirOp>,
+pub struct MirInstructionList {
+    list: LineGraph<MirInstruction>,
 }
