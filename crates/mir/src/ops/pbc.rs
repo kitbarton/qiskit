@@ -46,6 +46,16 @@ impl fmt::Display for Pauli {
 #[derive(Debug, Clone, PartialEq)]
 pub struct PauliList(Vec<Pauli>);
 
+impl PauliList {
+    pub fn new(paulis: Vec<Pauli>) -> Self {
+        PauliList(paulis)
+    }
+
+    pub fn inner(&self) -> &Vec<Pauli> {
+        &self.0
+    }
+}
+
 /// Initial type for Angles
 ///
 /// TODO: Decide whether we want to use existing from Qiskit or define one here
@@ -55,6 +65,16 @@ pub struct PauliList(Vec<Pauli>);
 /// are needed.
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct AngleType(f64);
+
+impl AngleType {
+    pub fn new(angle: f64) -> Self {
+        AngleType(angle)
+    }
+
+    pub fn inner(&self) -> f64 {
+        self.0
+    }
+}
 
 #[derive(Debug)]
 pub struct PauliRotation {
