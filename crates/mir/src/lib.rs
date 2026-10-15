@@ -45,6 +45,7 @@ impl SymbolIdList {
 /// `returns` field should be an empty vector. Similarly, a branch operation
 /// does not operate on, or effect any QuantumIDs and thus the `qids` list
 /// should be empty.
+#[derive(Debug)]
 pub struct MirInstruction {
     op: MirOp,
     qids: QidList,
@@ -54,4 +55,25 @@ pub struct MirInstruction {
 
 pub struct MirInstructionList {
     list: LineGraph<MirInstruction>,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::ops::pbc::{AngleType, Pauli, PauliList, PauliRotation};
+    use crate::qid::Qid;
+
+    #[test]
+    fn test_create_instruction() {
+        let instr = MirInstruction {
+            op: MirOp::PauliRotation(PauliRotation::new(
+                PauliList::new(vec![Pauli::I; 8]),
+                AngleType::new(0.5),
+            )),
+            qids: QidList::new(vec![Qid::virt(0); 8]),
+            args: SymbolIdList(vec![]),
+            returns: SymbolIdList(vec![]),
+        };
+        println!("KIT: instr: {:?}", instr);
+    }
 }
