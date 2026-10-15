@@ -16,13 +16,13 @@
 //! algorithms.
 
 pub mod line_graph;
-pub mod operations;
+pub mod ops;
 pub mod qid;
 
 use crate::line_graph::LineGraph;
-use crate::operations::MirOp;
+use crate::ops::MirOp;
+use crate::qid::QidList;
 
-type QidList = Vec<u64>; // temp - replace with Qid when available
 type SymbolIdList = Vec<u64>; // temp - replace with SymbolId when available
 
 /// Instruction in Qiskit Medium IR

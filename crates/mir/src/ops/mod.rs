@@ -16,12 +16,12 @@
 
 pub mod pbc;
 
-use crate::operations::pbc::{PauliMeasure, PauliRotation};
+use crate::ops::pbc::PauliRotation;
 
 pub enum MirOp {
     // Quantum operations
     PauliRotation(PauliRotation),
-    PauliMeasure(PauliMeasure),
+    // PauliMeasure(PauliMeasure),
     // Control flow operations
     ConditionalBranch,
     UnconditionalBranch,
