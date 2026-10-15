@@ -18,11 +18,33 @@ pub mod pbc;
 
 use crate::ops::pbc::PauliRotation;
 
+#[derive(Debug)]
 pub enum MirOp {
     // Quantum operations
     PauliRotation(PauliRotation),
-    // PauliMeasure(PauliMeasure),
-    // Control flow operations
-    ConditionalBranch,
-    UnconditionalBranch,
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::ops::PauliRotation;
+    use crate::ops::pbc::{AngleType, Pauli, PauliList};
+    use crate::*;
+
+    #[test]
+    fn test_mir_op() {
+        let pauli_rotation_op =
+            PauliRotation::new(PauliList::new(vec![Pauli::I; 8]), AngleType::new(0.5));
+        let mir_op = MirOp::PauliRotation(pauli_rotation_op);
+
+        println!("KIT: mir_op: {:?}", mir_op);
+
+        let mir_op2 = MirOp::PauliRotation(PauliRotation::new(
+            PauliList::new(vec![Pauli::I; 8]),
+            AngleType::new(0.5),
+        ));
+
+        println!("KIT: mir_op2: {:?}", mir_op2);
+
+        //        let mir_op = MirOp(PauliRotation(PauliRotation
+    }
 }
