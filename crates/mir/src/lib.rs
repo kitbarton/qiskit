@@ -19,6 +19,8 @@ pub mod line_graph;
 pub mod ops;
 pub mod qid;
 
+use std::fmt;
+
 use crate::line_graph::LineGraph;
 use crate::ops::MirOp;
 use crate::qid::QidList;
@@ -53,8 +55,24 @@ pub struct MirInstruction {
     returns: SymbolIdList, // Or just SymbolId
 }
 
+impl fmt::Display for MirInstruction {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "op: {:?}, qids: {:?}, args: {:?}, returns: {:?}",
+            self.op, self.qids, self.args, self.returns
+        )
+    }
+}
+
 pub struct MirInstructionList {
     list: LineGraph<MirInstruction>,
+}
+
+impl fmt::Display for MirInstructionList {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{:?}", self.list)
+    }
 }
 
 #[cfg(test)]
