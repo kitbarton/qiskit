@@ -327,6 +327,15 @@ impl QidInfo {
 #[derive(Clone, Debug, PartialEq)]
 pub struct QidList(Vec<Qid>);
 
+impl QidList {
+    pub fn new(qids: Vec<Qid>) -> Self {
+        QidList(qids)
+    }
+    pub fn inner(&self) -> &Vec<Qid> {
+        &self.0
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
