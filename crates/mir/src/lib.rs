@@ -23,7 +23,7 @@ use crate::line_graph::LineGraph;
 use crate::operations::MirOp;
 
 type QidList = Vec<u64>; // temp - replace with Qid when available
-type SymbolIdList = Vec<u64>; // temp - relpace with SymbolId when available
+type SymbolIdList = Vec<u64>; // temp - replace with SymbolId when available
 
 /// Instruction in Qiskit Medium IR
 ///
