@@ -23,7 +23,17 @@ use crate::line_graph::LineGraph;
 use crate::ops::MirOp;
 use crate::qid::QidList;
 
-type SymbolIdList = Vec<u64>; // temp - replace with SymbolId when available
+#[derive(Debug)]
+pub struct SymbolIdList(Vec<u64>); // temp - replace with SymbolId when available
+
+impl SymbolIdList {
+    pub fn new(syms: Vec<u64>) -> Self {
+        SymbolIdList(syms)
+    }
+    pub fn inner(&self) -> &Vec<u64> {
+        &self.0
+    }
+}
 
 /// Instruction in Qiskit Medium IR
 ///
