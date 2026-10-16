@@ -36,15 +36,9 @@ mod tests {
             PauliRotation::new(PauliList::new(vec![Pauli::I; 8]), AngleType::new(0.5));
         let mir_op = MirOp::PauliRotation(pauli_rotation_op);
 
-        println!("KIT: mir_op: {:?}", mir_op);
-
         let mir_op2 = MirOp::PauliRotation(PauliRotation::new(
             PauliList::new(vec![Pauli::I; 8]),
             AngleType::new(0.5),
         ));
-
-        println!("KIT: mir_op2: {:?}", mir_op2);
-
-        //        let mir_op = MirOp(PauliRotation(PauliRotation
     }
 }
