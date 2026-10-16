@@ -21,7 +21,7 @@ pub mod qid;
 
 use std::fmt;
 
-use crate::line_graph::LineGraph;
+use crate::line_graph::{LineGraph, iter::IterMain};
 use crate::ops::MirOp;
 use crate::qid::QidList;
 
@@ -118,6 +118,22 @@ impl MirInstructionList {
     pub fn push_front(&mut self, instr: MirInstruction) -> MirInstructionIndex {
         MirInstructionIndex(self.instr_list.push_front(instr))
     }
+
+    pub fn iter(&self) -> MirInstructionListIter<'_> {
+        MirInstructionListIter {
+            inner: self.instr_list.iter_main(),
+            //inner: self.instr_list.iter(),
+        }
+    }
+}
+
+impl<'a> IntoIterator for &'a MirInstructionList {
+    type Item = &'a MirInstruction;
+    type IntoIter = MirInstructionListIter<'a>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.iter()
+    }
 }
 
 impl fmt::Display for MirInstructionList {
@@ -126,11 +142,31 @@ impl fmt::Display for MirInstructionList {
     }
 }
 
+pub struct MirInstructionListIter<'a> {
+    //inner: std::slice::Iter<'a, MirInstruction>,
+    inner: IterMain<'a, MirInstruction>,
+}
+
+impl<'a> Iterator for MirInstructionListIter<'a> {
+    type Item = &'a MirInstruction;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.inner.next().map(|s| s.weight())
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
     use crate::ops::pbc::{AngleType, Pauli, PauliList, PauliRotation};
     use crate::qid::Qid;
+
+    fn create_pauli_rotation_op(pauli: Pauli, size: usize, angle: f64) -> MirOp {
+        MirOp::PauliRotation(PauliRotation::new(
+            PauliList::new(vec![pauli; size]),
+            AngleType::new(angle),
+        ))
+    }
 
     #[test]
     fn test_create_instruction() {
@@ -143,7 +179,6 @@ mod tests {
             args: SymbolIdList(vec![]),
             returns: SymbolIdList(vec![]),
         };
-        println!("KIT: Instruction: {:?}", instr);
     }
 
     #[test]
@@ -151,30 +186,21 @@ mod tests {
         let mut instr_list = MirInstructionList::new();
 
         let instr1 = MirInstruction {
-            op: MirOp::PauliRotation(PauliRotation::new(
-                PauliList::new(vec![Pauli::X; 8]),
-                AngleType::new(0.5),
-            )),
+            op: create_pauli_rotation_op(Pauli::X, 8, 0.5),
             qids: QidList::new(vec![Qid::virt(0); 8]),
             args: SymbolIdList(vec![]),
             returns: SymbolIdList(vec![]),
         };
 
         let instr2 = MirInstruction {
-            op: MirOp::PauliRotation(PauliRotation::new(
-                PauliList::new(vec![Pauli::Y; 8]),
-                AngleType::new(0.5),
-            )),
+            op: create_pauli_rotation_op(Pauli::Y, 8, 0.5),
             qids: QidList::new(vec![Qid::virt(0); 8]),
             args: SymbolIdList(vec![]),
             returns: SymbolIdList(vec![]),
         };
 
         let instr3 = MirInstruction {
-            op: MirOp::PauliRotation(PauliRotation::new(
-                PauliList::new(vec![Pauli::Z; 8]),
-                AngleType::new(0.5),
-            )),
+            op: create_pauli_rotation_op(Pauli::Z, 8, 0.5),
             qids: QidList::new(vec![Qid::virt(0); 8]),
             args: SymbolIdList(vec![]),
             returns: SymbolIdList(vec![]),
@@ -188,12 +214,8 @@ mod tests {
 
         // Iterate through the instruction list.
         // Expect to find instr3, instr1, instr2
-
-        for (index, instr) in instr_list.instr_list.iter_main().enumerate() {
-            //println!("KIT: {index}, {:?}", instr);
-            assert_eq!(*instr.weight(), check_list[index]);
+        for (index, instr) in instr_list.iter().enumerate() {
+            assert_eq!(*instr, check_list[index])
         }
-
-        println!("KIT: Instruction List: {:?}", instr_list);
     }
 }
