@@ -18,7 +18,7 @@ pub mod pbc;
 
 use crate::ops::pbc::PauliRotation;
 
-#[derive(Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum MirOp {
     // Quantum operations
     PauliRotation(PauliRotation),

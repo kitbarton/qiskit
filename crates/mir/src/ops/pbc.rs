@@ -21,7 +21,7 @@ use std::fmt;
 /// specifically for use in MIR, as we can add some helper functions here that
 /// will be needed throughout MIR (e.g., determine commuting/anti-commuting
 /// properties, and maybe some conversion functions to/from string). That said,
-/// I have not yet looked at the existing implementation in Qiskit to know
+/// I have not yet looked at the existing implementation pwdin Qiskit to know
 /// whether the same could be done with them.
 #[derive(Debug, Copy, Clone, Default, PartialEq)]
 pub enum Pauli {
@@ -76,7 +76,7 @@ impl AngleType {
     }
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct PauliRotation {
     paulis: PauliList,
     angle: AngleType,
