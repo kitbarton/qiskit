@@ -334,6 +334,9 @@ impl QidList {
     pub fn inner(&self) -> &Vec<Qid> {
         &self.0
     }
+    pub fn len(&self) -> usize {
+        self.0.len()
+    }
 }
 
 #[cfg(test)]

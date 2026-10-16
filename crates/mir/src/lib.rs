@@ -35,6 +35,10 @@ impl SymbolIdList {
     pub fn inner(&self) -> &Vec<u64> {
         &self.0
     }
+
+    pub fn len(&self) -> usize {
+        self.0.len()
+    }
 }
 
 /// Instruction in Qiskit Medium IR
@@ -171,14 +175,16 @@ mod tests {
     #[test]
     fn test_create_instruction() {
         let instr = MirInstruction {
-            op: MirOp::PauliRotation(PauliRotation::new(
-                PauliList::new(vec![Pauli::I; 8]),
-                AngleType::new(0.5),
-            )),
+            op: create_pauli_rotation_op(Pauli::I, 8, 0.5),
             qids: QidList::new(vec![Qid::virt(0); 8]),
             args: SymbolIdList(vec![]),
             returns: SymbolIdList(vec![]),
         };
+
+        assert_eq!(*instr.op(), create_pauli_rotation_op(Pauli::I, 8, 0.5));
+        assert_eq!(instr.qids().len(), 8);
+        assert_eq!(instr.args().len(), 0);
+        assert_eq!(instr.returns().len(), 0);
     }
 
     #[test]
